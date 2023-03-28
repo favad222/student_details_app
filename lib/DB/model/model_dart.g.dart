@@ -21,7 +21,7 @@ class StudentModelAdapter extends TypeAdapter<StudentModel> {
       age: fields[1] as String,
       rollnumber: fields[2] as String,
       class_: fields[3] as String,
-      photo: fields[5] as String,
+      photo: fields[5] as String?,
       id: fields[4] as int?,
     );
   }

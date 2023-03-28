@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/DB/functions/db_functions.dart';
 import 'package:flutter_application_1/DB/model/model_dart.dart';
@@ -5,7 +7,6 @@ import 'package:flutter_application_1/screen/Search.dart';
 import 'package:flutter_application_1/screen/addStudent.dart';
 import 'package:flutter_application_1/screen/editStudents.dart';
 import 'package:flutter_application_1/screen/fullList.dart';
-import 'package:hive_flutter/adapters.dart';
 
 class mainScreen extends StatelessWidget {
   const mainScreen({super.key});
@@ -59,10 +60,24 @@ class mainScreen extends StatelessWidget {
                         );
                       },
                       title: Text(data.name.toUpperCase(), style: const TextStyle(fontSize: 15)),
-                      leading: const CircleAvatar(
-                        backgroundImage: AssetImage('Assets/images/logo.jpg'),
-                        radius: 30,
-                      ),
+                      leading: data.photo == null
+                          ? const CircleAvatar(
+                              backgroundImage: AssetImage('Assets/images/avatar (1).png'),
+                              radius: 30,
+                            )
+                          : CircleAvatar(
+                              backgroundImage: FileImage(
+                                File(data.photo!),
+                              ),
+                              radius: 30,
+                            ),
+
+                      // const CircleAvatar(
+                      //   // backgroundImage: data.photo == null ? AssetImage('Assets/images/avatar (1).png'): File(data.photo!),
+
+                      //   radius: 30,
+                      // ),
+
                       trailing: Wrap(
                         spacing: 14,
                         children: [

@@ -19,7 +19,7 @@ class StudentModel {
   int? id;
 
   @HiveField(5)
-  final String photo;
+  final String? photo;
 
   StudentModel({required this.name, required this.age, required this.rollnumber, required this.class_, required this.photo, this.id});
 }
