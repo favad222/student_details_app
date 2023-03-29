@@ -202,13 +202,15 @@ class _AddStudentState extends State<AddStudent> {
 
     // create student model
 
-    final student = StudentModel(name: name, age: age, class_: class_, rollnumber: rollNo, photo: fileimage!.path.isEmpty ? 'null' : fileimage!.path);
+    final student = StudentModel(name: name, age: age, class_: class_, rollnumber: rollNo, photo: fileimage?.path);
+
+    print('${student.photo}');
 
     addStudent(student);
     log('data added success');
   }
 
-   File? fileimage;
+  File? fileimage;
 
   Future<void> _imageFromGallery() async {
     final photo = await ImagePicker().pickImage(source: ImageSource.gallery);

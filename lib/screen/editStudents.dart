@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/DB/functions/db_functions.dart';
 import 'package:flutter_application_1/DB/model/model_dart.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditStudent extends StatefulWidget {
   final String name;
@@ -13,6 +15,8 @@ class EditStudent extends StatefulWidget {
 
   final int index;
 
+  final String? photo;
+
   const EditStudent({
     super.key,
     required this.name,
@@ -20,6 +24,7 @@ class EditStudent extends StatefulWidget {
     required this.age,
     required this.rollno,
     required this.index,
+    required this.photo,
   });
 
   @override
@@ -35,6 +40,8 @@ class _EditStudentState extends State<EditStudent> {
 
   TextEditingController rollNoOfStudent = TextEditingController();
 
+  String? profile;
+
   @override
   void initState() {
     super.initState();
@@ -46,14 +53,16 @@ class _EditStudentState extends State<EditStudent> {
     ageOfStudent = TextEditingController(text: widget.age);
 
     rollNoOfStudent = TextEditingController(text: widget.rollno);
+
+    profile = widget.photo;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Edit Student'),
-        backgroundColor: Colors.grey,
       ),
       body: SafeArea(
         child: SizedBox(
@@ -63,6 +72,51 @@ class _EditStudentState extends State<EditStudent> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // profile == null
+                //     ? const CircleAvatar(
+                //         backgroundImage: AssetImage('Assets/images/avatar (1).png'),
+                //         radius: 80,
+                //       )
+                //     : CircleAvatar(
+                //         backgroundImage: FileImage(
+                //           File(profile!),
+                //         ),
+                //         radius: 80,
+                //       ),
+
+                Container(
+                  child: fileimage == null
+                      ? Container(
+                          height: 140,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          child: profile == null
+                              ? const CircleAvatar(
+                                  backgroundImage: AssetImage('Assets/images/avatar (1).png'),
+                                  radius: 80,
+                                )
+                              : CircleAvatar(
+                                  backgroundImage: FileImage(
+                                    File(profile!),
+                                  ),
+                                  radius: 80,
+                                ),
+                        )
+                      : CircleAvatar(
+                          radius: 40,
+                          backgroundImage: FileImage(
+                            File(fileimage!.path),
+                          ),
+                        ),
+                ),
+
+                ElevatedButton(
+                  onPressed: () {
+                    _imageFromGallery();
+                  },
+                  child: const Text('Edit profile'),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: TextFormField(
@@ -112,7 +166,7 @@ class _EditStudentState extends State<EditStudent> {
                     child: ElevatedButton.icon(
                       style: const ButtonStyle(),
                       onPressed: () {
-                        // EditSave();
+                        EditSave();
                         editDialouge();
 
                         Navigator.of(context).pop();
@@ -132,16 +186,18 @@ class _EditStudentState extends State<EditStudent> {
     );
   }
 
-  // Future<void> EditSave() async {
-  //   final student = StudentModel(
-  //     name: nameOfStudent.text,
-  //     age: ageOfStudent.text,
-  //     rollnumber: rollNoOfStudent.text,
-  //     class_: classOfStudent.text,
-  //   );
+  Future<void> EditSave() async {
+    final student = StudentModel(
+      name: nameOfStudent.text,
+      age: ageOfStudent.text,
+      rollnumber: rollNoOfStudent.text,
+      class_: classOfStudent.text,
+      photo: fileimage?.path ?? profile,
+    );
 
-  //   editList(widget.index, student);
-  // }
+    editList(widget.index, student);
+    print('edited');
+  }
 
   editDialouge() {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -151,5 +207,23 @@ class _EditStudentState extends State<EditStudent> {
         content: Text('data updated'),
       ),
     );
+  }
+
+  File? fileimage;
+
+  Future<void> _imageFromGallery() async {
+    final photo = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (photo == null) {
+      return;
+    } else {
+      final photoTemp = File(photo.path);
+
+      setState(
+        () {
+          fileimage = photoTemp;
+        },
+      );
+    }
   }
 }

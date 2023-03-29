@@ -1,9 +1,7 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/DB/functions/db_functions.dart';
 import 'package:flutter_application_1/DB/model/model_dart.dart';
-import 'package:flutter_application_1/screen/Search.dart';
 import 'package:flutter_application_1/screen/addStudent.dart';
 import 'package:flutter_application_1/screen/editStudents.dart';
 import 'package:flutter_application_1/screen/fullList.dart';
@@ -23,10 +21,10 @@ class mainScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              showSearch(
-                context: context,
-                delegate: SearchWidget(),
-              );
+              // showSearch(
+              //   context: context,
+              //   delegate: SearchWidget(),
+              // );
             },
             icon: const Icon(Icons.search),
             tooltip: 'open search ',
@@ -55,6 +53,7 @@ class mainScreen extends StatelessWidget {
                               age: data.age,
                               class_: data.class_,
                               rollno: data.rollnumber,
+                              photo: data.photo,
                             ),
                           ),
                         );
@@ -92,6 +91,7 @@ class mainScreen extends StatelessWidget {
                                       age: data.age,
                                       rollno: data.rollnumber,
                                       index: index,
+                                      photo: data.photo,
                                     );
                                   },
                                 ),
