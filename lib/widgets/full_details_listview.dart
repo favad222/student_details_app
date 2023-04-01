@@ -80,7 +80,7 @@ class FullDetailsListView extends StatelessWidget {
                   SizedBox(
                     height: 50,
                     child: Text(
-                      'ROLL NO : $rollno',
+                      'Phone Number : $rollno',
                       style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                   )

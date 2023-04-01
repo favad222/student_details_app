@@ -48,16 +48,4 @@ class EditStudent extends StatelessWidget {
   }
 }
 
-Future<void> editSave(BuildContext context, index) async {
-  final provider = Provider.of<StudentProvider>(context, listen: false);
-  final student = StudentModel(
-    name: provider.enameController.text,
-    age: provider.eageController.text,
-    rollnumber: provider.erollNoController.text,
-    class_: provider.eclassController.text,
-    photo: provider.fileimage?.path ?? provider.eprofile,
-  );
 
-  provider.editList(index, student);
-  provider.eprofile == null;
-}

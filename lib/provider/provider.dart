@@ -10,6 +10,7 @@ class StudentProvider extends ChangeNotifier {
   List<StudentModel> foundeddata = [];
 
   File? fileimage;
+  File? efileimage;
 
   // add students controllers
 
@@ -46,6 +47,20 @@ class StudentProvider extends ChangeNotifier {
       final photoTemp = File(photo.path);
 
       fileimage = photoTemp;
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> edtiImageFromGallery() async {
+    final photo = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (photo == null) {
+      return;
+    } else {
+      final photoTemp = File(photo.path);
+
+      efileimage = photoTemp;
     }
 
     notifyListeners();
